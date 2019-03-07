@@ -57,7 +57,7 @@ tutorial. The paragraphs below explain basic tasks on using this module.
 
 
 """
-import _pjsua
+import pjsua._pjsua as _pjsua
 import _thread
 import threading
 import weakref
