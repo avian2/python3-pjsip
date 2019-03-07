@@ -53,7 +53,8 @@ setup(name="pjsua",
                                include_dirs=pj_inc_dirs, 
                                library_dirs=pj_lib_dirs, 
                                libraries=pj_libs,
-                               extra_link_args=extra_link_args
+                               extra_link_args=extra_link_args,
+                               extra_compile_args=['-Wno-missing-braces'],
                               )
                     ],
       cmdclass=versioneer.get_cmdclass()
