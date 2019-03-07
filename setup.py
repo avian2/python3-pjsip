@@ -18,17 +18,17 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 #
-from setuptools import setup, Extension
+from setuptools import setup, Extension, find_packages
 
 import pkgconfig
 
 def modversion_backport(package):
-	return pkgconfig.pkgconfig._query(package, '--modversion')
+    return pkgconfig.pkgconfig._query(package, '--modversion')
 
 if hasattr(pkgconfig, 'modversion'):
-	modversion = pkgconfig.modversion
+    modversion = pkgconfig.modversion
 else:
-	modversion = modversion_backport
+    modversion = modversion_backport
 
 package = 'libpjproject'
 
@@ -44,8 +44,9 @@ extra_link_args = d['extra_link_args']
 setup(name="pjsua", 
       version=pj_version,
       description='SIP User Agent Library based on PJSIP',
-      url='http://trac.pjsip.org/repos/wiki/Python_SIP_Tutorial',
-      ext_modules = [Extension("_pjsua", 
+      url='https://github.com/avian2/python3-pjsip',
+      packages=find_packages(),
+      ext_modules = [Extension("pjsua._pjsua",
                                ["_pjsua.c"], 
                                define_macros=pj_defs,
                                include_dirs=pj_inc_dirs, 
@@ -54,5 +55,4 @@ setup(name="pjsua",
                                extra_link_args=extra_link_args
                               )
                     ],
-      py_modules=["pjsua"]
-     )
+)
