@@ -21,6 +21,7 @@
 from setuptools import setup, Extension, find_packages
 
 import pkgconfig
+import versioneer
 
 def modversion_backport(package):
     return pkgconfig.pkgconfig._query(package, '--modversion')
@@ -42,8 +43,8 @@ pj_defs = d['define_macros']
 extra_link_args = d['extra_link_args']
 
 setup(name="pjsua", 
-      version=pj_version,
-      description='SIP User Agent Library based on PJSIP',
+      version=versioneer.get_version(),
+      description='SIP User Agent Library based on PJSIP (%s)' % pj_version,
       url='https://github.com/avian2/python3-pjsip',
       packages=find_packages(),
       ext_modules = [Extension("pjsua._pjsua",
@@ -55,4 +56,5 @@ setup(name="pjsua",
                                extra_link_args=extra_link_args
                               )
                     ],
+      cmdclass=versioneer.get_cmdclass()
 )
