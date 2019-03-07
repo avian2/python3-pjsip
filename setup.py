@@ -18,84 +18,28 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
 #
-from distutils.core import setup, Extension
-import os
-import sys
-import platform
+from setuptools import setup, Extension
 
-# find pjsip version
-pj_version=""
-pj_version_major=""
-pj_version_minor=""
-pj_version_rev=""
-pj_version_suffix=""
-f = open('../../../version.mak', 'r')
-for line in f:
-    if line.find("export PJ_VERSION_MAJOR") != -1:
-        tokens=line.split("=")
-    else:
-        tokens=[]
-    if len(tokens)>1:
-        pj_version_major= tokens[1].strip()
-    elif line.find("export PJ_VERSION_MINOR") != -1:
-        tokens=line.split("=")
-    if len(tokens)>1:
-        pj_version_minor= line.split("=")[1].strip()
-    elif line.find("export PJ_VERSION_REV") != -1:
-        tokens=line.split("=")
-    if len(tokens)>1:
-        pj_version_rev= line.split("=")[1].strip()
-    elif line.find("export PJ_VERSION_SUFFIX") != -1:
-        tokens=line.split("=")
-    if len(tokens)>1:
-        pj_version_suffix= line.split("=")[1].strip()
+import pkgconfig
 
-f.close()
-if not pj_version_major:
-    print('Unable to get PJ_VERSION_MAJOR')
-    sys.exit(1)
+def modversion_backport(package):
+	return pkgconfig.pkgconfig._query(package, '--modversion')
 
-pj_version = pj_version_major + "." + pj_version_minor
-if pj_version_rev:
-    pj_version += "." + pj_version_rev
-if pj_version_suffix:
-    pj_version += "-" + pj_version_suffix
-
-#print 'PJ_VERSION = "'+ pj_version + '"'
-
-
-# Fill in pj_inc_dirs
-pj_inc_dirs = []
-f = os.popen("make -f helper.mak inc_dir")
-for line in f:
-    pj_inc_dirs.append(line.rstrip("\r\n"))
-f.close()
-
-# Fill in pj_lib_dirs
-pj_lib_dirs = []
-f = os.popen("make -f helper.mak lib_dir")
-for line in f:
-    pj_lib_dirs.append(line.rstrip("\r\n"))
-f.close()
-
-# Fill in pj_libs
-pj_libs = []
-f = os.popen("make -f helper.mak libs")
-for line in f:
-    pj_libs.append(line.rstrip("\r\n"))
-f.close()
-
-# Mac OS X depedencies
-if platform.system() == 'Darwin':
-    extra_link_args = ["-framework", "CoreFoundation", 
-                       "-framework", "AudioToolbox"]
-    version = platform.mac_ver()[0].split(".")    
-    # OS X Lion (10.7.x) or above support
-    if version[0] == '10' and int(version[1]) >= 7:
-        extra_link_args += ["-framework", "AudioUnit"]
+if hasattr(pkgconfig, 'modversion'):
+	modversion = pkgconfig.modversion
 else:
-    extra_link_args = []
+	modversion = modversion_backport
 
+package = 'libpjproject'
+
+pj_version = modversion(package)
+
+d = pkgconfig.parse(package)
+pj_inc_dirs = d['include_dirs']
+pj_lib_dirs = d['library_dirs']
+pj_libs = d['libraries']
+pj_defs = d['define_macros']
+extra_link_args = d['extra_link_args']
 
 setup(name="pjsua", 
       version=pj_version,
@@ -103,7 +47,7 @@ setup(name="pjsua",
       url='http://trac.pjsip.org/repos/wiki/Python_SIP_Tutorial',
       ext_modules = [Extension("_pjsua", 
                                ["_pjsua.c"], 
-                               define_macros=[('PJ_AUTOCONF', '1'),],
+                               define_macros=pj_defs,
                                include_dirs=pj_inc_dirs, 
                                library_dirs=pj_lib_dirs, 
                                libraries=pj_libs,
@@ -112,5 +56,3 @@ setup(name="pjsua",
                     ],
       py_modules=["pjsua"]
      )
-
-
