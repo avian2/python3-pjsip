@@ -35,10 +35,14 @@ package = 'libpjproject'
 
 pj_version = modversion(package)
 
+# This removes a needless dependency on libavdevice.
+def filter_libs(lib):
+	return lib not in ('avdevice',)
+
 d = pkgconfig.parse(package)
 pj_inc_dirs = d['include_dirs']
 pj_lib_dirs = d['library_dirs']
-pj_libs = d['libraries']
+pj_libs = list(filter(filter_libs, d['libraries']))
 pj_defs = d['define_macros']
 extra_link_args = d['extra_link_args']
 
