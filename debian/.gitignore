@@ -1,0 +1,6 @@
+debhelper-build-stamp
+files
+python3-pjsua.postinst.debhelper
+python3-pjsua.prerm.debhelper
+python3-pjsua.substvars
+python3-pjsua

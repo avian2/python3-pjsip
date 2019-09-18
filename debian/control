@@ -1,0 +1,13 @@
+Source: python3-pjsua
+Section: python
+Priority: optional
+Maintainer: Tomaz Solc <tomaz.solc@tablix.org>
+Build-Depends: debhelper (>= 9), dh-python, python3-all-dev, python3-pkgconfig, python3-setuptools, libpjproject-dev (>= 2.7.2-1tomaz5)
+Standards-Version: 4.4.0
+Vcs-Git: https://github.com/avian2/python3-pjsip.git
+
+Package: python3-pjsua
+Architecture: any
+Depends: ${python3:Depends}, ${shlibs:Depends}, ${misc:Depends}
+Description: Python 3 bindings for the pjsip SIP stack
+  Python 3 bindings for the pjsip SIP stack
