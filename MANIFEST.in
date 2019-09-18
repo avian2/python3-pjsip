@@ -1,2 +1,3 @@
 include versioneer.py
 include pjsua/_version.py
+include _pjsua.h
