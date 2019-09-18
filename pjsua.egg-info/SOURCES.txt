@@ -1,0 +1,13 @@
+MANIFEST.in
+README.md
+_pjsua.c
+_pjsua.h
+setup.cfg
+setup.py
+versioneer.py
+pjsua/__init__.py
+pjsua/_version.py
+pjsua.egg-info/PKG-INFO
+pjsua.egg-info/SOURCES.txt
+pjsua.egg-info/dependency_links.txt
+pjsua.egg-info/top_level.txt
