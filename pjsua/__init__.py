@@ -765,8 +765,8 @@ class AccountConfig:
     require_100rel = False
     publish_enabled = False
     pidf_tuple_id = ""
-    proxy = []
-    auth_cred = []
+    proxy = None
+    auth_cred = None
     auth_initial_send = False
     auth_initial_algorithm = ""
     transport_id = -1
@@ -797,6 +797,9 @@ class AccountConfig:
                      will be constructed from the domain name.
 
         """
+        self.proxy = []
+        self.auth_cred = []
+
         default = _pjsua.acc_config_default()
         self._cvt_from_pjsua(default)
         if domain!="":
