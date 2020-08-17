@@ -1,5 +1,4 @@
 MANIFEST.in
-README.md
 _pjsua.c
 _pjsua.h
 setup.cfg
