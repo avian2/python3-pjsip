@@ -13,6 +13,6 @@ To make a new release:
     $ git checkout master
     $ python3 setup.py sdist
     $ git checkout debian
-    $ gbp import-orig --upstream-vcs-tag=v1!1.0.3 dist/pjsua-1\!1.0.3.tar.gz
+    $ gbp import-orig --upstream-vcs-tag=v1!1.0.3 --debian-branch debian dist/pjsua-1\!1.0.3.tar.gz
 
 Edit d/changelog, etc.
